@@ -1,0 +1,47 @@
+{% extends "./base.html" %}
+{% block title %}menu de clases{%endblock%}
+{% block body %}
+<div class="row">
+    <div class="offset-md-3 col-md-6">
+        <div class="card">
+            <div class="table-responsive" style="padding: 2%;">
+                <!-- Listado de turnos activos -->
+                <h2>LISTADO DE TURNOS ACTIVOS</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Turno</th>
+                            <th>Dia</th>
+                            <th>Horario</th>
+                            <th>Cupos</th> 
+                            <th>cupo maximo</th>  
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in turnos %}
+                            <tr>
+                                <td>{{ i.id_turno }}</td>
+                                <td>{{ i.dia_turno }}</td>
+                                <td>{{ i.rango_turno }}</td>
+                            {% for cantidad_item in cantidad %}
+                                {% if cantidad_item.0 == i.id_turno %}
+                                    <td>{{ cantidad_item.1 }}</td>
+                                
+                                {% endif %}
+                            {% endfor %}
+                                <td>{{ i.cant_maxima }}</td>
+                        
+                        
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

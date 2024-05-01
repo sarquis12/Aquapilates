@@ -1,0 +1,109 @@
+{% extends ".\base.html" %}
+
+{% block title %} Gestión de Turnos {% endblock %}
+
+{% block body %}
+<div class="row">
+    <!-- Columna izquierda: Formulario para crear turnos -->
+    <div class="col-md-6 col-lg-4 col-xl-4 col-sm-12">
+        <h2>CREAR TURNOS</h2>
+        <div class="card" style="margin-top: 14%;">
+            <div class="card-body">
+                <!-- Formulario para enviar datos de nuevo turno -->
+                <form action="/registrarTurno/" method="POST">
+                    {% csrf_token %}
+                    
+                    <!-- Selector para elegir el día de la semana -->
+                    <div class="form-group">
+                        <label for="txtDia">Días de la semana:</label>
+                        <select id="txtDia" name="txtDia" class="form-control">
+                            <option value="lunes">Lunes</option>
+                            <option value="martes">Martes</option>
+                            <option value="miercoles">Miércoles</option>
+                            <option value="jueves">Jueves</option>
+                            <option value="viernes">Viernes</option>
+                            <option value="sábado">Sábado</option>
+                        </select>
+                    </div>
+
+                    <!-- Rango horario -->
+                    <h5>Rango Horario</h5>
+                    <div class="form-group">    
+                        <div style="display: flex;">
+                            <input type="time" id="txtHorarioinicio" name="txtHorarioinicio" class="form-control" placeholder="inicio" maxlength="15" required>
+                            <input type="time" id="txtHorariofinal" name="txtHorariofinal" class="form-control" placeholder="final" maxlength="15" required>
+                        </div>
+                    </div>    
+
+                    <!-- Cantidad de personas -->
+                    <h5>Cant. Personas</h5>
+                    <div class="form-group">
+                        <input type="number" id="numCant" name="numCant" class="form-control" placeholder="5"  required>
+                    </div>
+
+                    <!-- Botón para guardar -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-success text-black">GUARDAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Columna derecha: Listado de turnos activos e inactivos -->
+    <div class="col-md-6 col-lg-8 col-xl-8 col-sm-12">
+        <div class="table-responsive">
+            <!-- Listado de turnos activos -->
+            <h2>LISTADO DE TURNOS ACTIVOS</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Turno</th>
+                        <th>Dia</th>
+                        <th>Horario</th>
+                        <th>Cupos</th>   
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in turnos_activos %}
+                        <tr>
+                            <td>{{i.id_turno}}</td>
+                            <td>{{i.dia_turno}}</td>
+                            <td>{{i.rango_turno}}</td>
+                            <td>{{i.cant_maxima}}</td>
+                            <td><a href="eliminarTurno/{{i.id_turno}}"  class="btn btn-danger">eliminar</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Listado de turnos inactivos -->
+            <h2>LISTADO DE TURNOS INACTIVOS</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Turno</th>
+                        <th>Dia</th>
+                        <th>Horario</th>
+                        <th>Cupos</th>   
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in turnos_inactivos %}
+                        <tr>
+                            <td>{{i.id_turno}}</td>
+                            <td>{{i.dia_turno}}</td>
+                            <td>{{i.rango_turno}}</td>
+                            <td>{{i.cant_maxima}}</td>
+                            <td><a href="activarTurno/{{i.id_turno}}"  class="btn btn-warning">activar</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

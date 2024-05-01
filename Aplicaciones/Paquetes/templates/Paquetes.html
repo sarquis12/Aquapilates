@@ -1,0 +1,97 @@
+{% extends ".\base.html" %}
+
+{% block title %} Gestión de Paquetes {% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-6 col-lg-4 col-xl-4 col-sm-12">
+        <h2>CREAR PAQUETES</h2>
+        <div class="card" style="margin-top: 14%;">
+            <div class="card-body">
+                <form action="/registrarPaquete/" method="POST"> {% csrf_token %}
+                    <h5>Clases Por Semana</h5>
+                    <div class="form-group">
+                        <input type="number" id="numClases" name="numClases" class="form-control" placeholder="2" required>
+                    <h5>Precio</h5>
+                    </div>    
+                    <div class="form-group">    
+                        <input type="number" id="numPrecio" name="numPrecio" class="form-control" placeholder="5000"  required>
+                    </div>    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-success text-black">GUARDAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+
+
+    </div>
+
+    <div class="col-md-6 col-lg-8 col-xl-8 col-sm-12">
+        <div class="table-responsive">
+            <h2>LISTADO DE PAQUETES ACTIVOS</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Paquete</th>
+                        <th>Cant.Clases</th>
+                        <th>Precio</th>
+                           
+                        <th>Opciones</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    {% for i in paquetes_activos %}
+                        <tr>
+                            <td>{{i.id_paquete}}</td>
+                            <td>{{i.cant_clas_sem}}</td>
+                            <td>{{i.precio_paquete}}</td>
+                            <td><a href="eliminarPaquete/{{i.id_paquete}}"  class="btn btn-danger">eliminar</a></td>
+                        </tr>
+                        
+                    {% endfor %}
+                </tbody>
+                
+
+            </table>
+
+            <h2>LISTADO DE TURNOS INACTIVOS</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Paquete</th>
+                        <th>Cant.Clases</th>
+                        <th>Precio</th>
+                        <th>Opciones</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    {% for i in paquetes_inactivos %}
+                        <tr>
+                            <td>{{i.id_paquete}}</td>
+                            <td>{{i.cant_clas_sem}}</td>
+                            <td>{{i.precio_paquete}}</td>
+                            
+                            <td><a href="activarPaquete/{{i.id_paquete}}"  class="btn btn-warning">activar</a></td>
+                            
+                        
+                        
+                        </tr>
+                        
+                    {% endfor %}
+                </tbody>
+                
+
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

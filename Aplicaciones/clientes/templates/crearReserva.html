@@ -1,0 +1,77 @@
+{% extends "./base.html" %}
+{% block title %}Crear Reserva{%endblock%}
+{% block body %}
+<div id="recibos" data-recibos="{{ recibos_json }}"></div>
+<div class="row">
+    <div class="offset-md-4 col-md-4">
+        <h2>Reserva:</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="./crearClase-parte2/" method="POST"> {% csrf_token %}
+                    <DIV class="form-group">
+                        <H5>DNI:</H5>
+                        <input class="form-control" list="listaDNI" id="DNIReserva" name="DNIReserva">
+                    </DIV>
+                        
+                    <datalist id="listaDNI">
+                        {% for i in clientes %}
+                        <option value="{{i.dni}}"></option>
+                        {% endfor %}
+                    </datalist>
+                        
+                    <H5>Paquetes:</H5>
+                    <div class="form-group">
+                        <select id="numPaquete" name="numPaquete" class="form-control" required>
+                        {% for i in paquete %}
+                            <option value="{{i.id_paquete}}">Paquete {{i.id_paquete}} - Cant. Clases: {{i.cant_clas_sem}}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <H5>Recibo:</H5>
+                    <div class="form-group">
+                        <select id="numRecibo" name="numRecibo" class="form-control">
+                            <!-- Opciones de recibo se generarán dinámicamente -->
+                        </select>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-success text-black">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    var divRecibos = document.getElementById('recibos');
+    var dataRecibosStr = divRecibos.getAttribute('data-recibos');
+    console.log("Cadena JSON recibida:", dataRecibosStr);
+    var diccionarioRecibos = JSON.parse(dataRecibosStr);
+    
+    document.getElementById('DNIReserva').addEventListener('change', function() {
+        var selectedDNI = this.value;
+        console.log(selectedDNI)
+        var opcionesRecibo = document.getElementById('numRecibo');
+        
+        // Filtrar los recibos por DNI seleccionado
+        var recibosFiltrados = Object.keys(diccionarioRecibos).filter(function(key) {
+            return diccionarioRecibos[key] === selectedDNI;
+        });
+        
+        // Limpiar opciones existentes
+        opcionesRecibo.innerHTML = '';
+        
+        // Agregar las opciones filtradas al select
+        recibosFiltrados.forEach(function(reciboId) {
+            var opcion = document.createElement('option');
+            opcion.value = reciboId;
+            opcion.textContent = reciboId; // Esto podría cambiar según la estructura de tus datos
+            opcionesRecibo.appendChild(opcion);
+        });
+    });
+</script>
+
+{% endblock %}
+

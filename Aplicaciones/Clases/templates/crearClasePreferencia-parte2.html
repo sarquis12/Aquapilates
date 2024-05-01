@@ -1,0 +1,90 @@
+{% extends "./base.html" %}
+{% block title %}clases{%endblock%}
+{% block body %}
+
+<body>
+    <!-- Elemento div para almacenar los datos de los turnos -->
+    <div id="cant_fechas" data-cant_fechas="{{ cant_fechas }}"></div>
+    <div id="turnos" data-turnos="{{ turnos_json }}"></div>
+    <div id="datosReserva" data-datosReserva="{{ datosReserva }}"></div>
+
+    <div class="row">
+        <div class="offset-md-4 col-md-4">
+            <div class="card" style="padding: 3%;">
+                <form id="formulario" action="./crearClasePreferencia-parte3/" method="POST">
+                    {% csrf_token %}
+                    <!-- Campos ocultos para enviar datos adicionales -->
+                    <input type="hidden" id="hidden_cant_fechas" name="cant_fechas">
+                    <input type="hidden" id="hidden_datosReserva" name="datosReserva">
+                    
+                    <div id="inputs-container">
+                        <!-- Aquí se generarán los select -->
+                    </div>
+                    <button type="submit" class="btn btn-block btn-success text-black">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Obtener los datos de los turnos
+        var divTurnos = document.getElementById('turnos');
+        var dataTurnosStr = divTurnos.getAttribute('data-turnos');
+        
+        var diccionario = JSON.parse(dataTurnosStr); // Convertir la cadena JSON en un objeto JavaScript
+
+        var fechas = document.getElementById('cant_fechas');
+        var datafechas = fechas.getAttribute('data-cant_fechas');
+        
+
+        var datosReserva = document.getElementById('datosReserva');
+        var dataDatosReserva = datosReserva.getAttribute('data-datosReserva');
+        console.log(dataDatosReserva);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            generarSelects();
+            // Asignar valores a los campos ocultos
+            document.getElementById('hidden_cant_fechas').value = datafechas;
+            console.log(datafechas);
+            console.log(dataDatosReserva);
+
+            document.getElementById('hidden_datosReserva').value = dataDatosReserva;
+        });
+
+        function generarSelects() {
+            var cantidad = datafechas; // Número de selects a generar
+            var container = document.getElementById("inputs-container");
+
+            // Limpiar el contenedor
+            container.innerHTML = '';
+
+            for (var i = 1; i <= cantidad; i++) {
+                // Crear elemento de título
+                var titulo = document.createElement("h3");
+                titulo.textContent = "Turno " + i;
+
+                // Crear elemento select
+                var select = document.createElement("select");
+                select.className = "form-control";
+                select.name = "select_" + i;
+                select.id = "select-" + i;
+
+                // Llenar el select con opciones del diccionario
+                for (var clave in diccionario) {
+                    var opcion = document.createElement("option");
+                    opcion.value = clave;
+                    opcion.id="opcion"+i+clave;
+                    opcion.textContent = diccionario[clave][1]+" de "+diccionario[clave][0];
+                    select.appendChild(opcion);
+                }
+
+                // Agregar título y select al contenedor
+                container.appendChild(titulo);
+                container.appendChild(select);
+                container.appendChild(document.createElement("br"));
+            }
+        }
+    </script>
+</body>
+
+{% endblock %}

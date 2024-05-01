@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Crear Reserva{%endblock%}
+{% block body %}
+
+<div class="row">
+    <div class="offset-md-4 col-md-4">
+        <h2>Ingresar a cuenta:</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="" method="POST"> {% csrf_token %}
+                    <DIV class="form-group">
+                        
+                        <input class="form-control"  type="text" id="" name="username" placeholder="Nombre de usuario">
+                    </DIV>
+
+                    <DIV class="form-group">
+                        
+                        <input class="form-control" type="password" id="" name="password" placeholder="Contraseña">
+                    </DIV>
+                        
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-success text-black">Iniciar Sesion</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

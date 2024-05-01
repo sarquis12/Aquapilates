@@ -1,0 +1,66 @@
+{% extends "./base.html" %}
+{% block title %}Recibos{%endblock%}
+{% block body %}
+<div class="row">
+    <div class="offset-md-2 col-md-8">
+        <div class="card">
+            <div class="card-body">
+                
+                    <div class="table-responsive">
+                        <h2>LISTADO RECIBOS</h2>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>DNI</th>
+                                    <th>FECHA</th>
+                                    <th>IMPORTE</th>
+                                    <th>METODO DE PAGO</th> 
+                                    <th>OPCIONES</th> 
+                                </tr>
+            
+                            </thead>
+                            <tbody>
+                                {% for i in recibos %}
+                                    <tr>
+                                        <td>{{i.id_recibo}}</td>
+                                        <td>{{i.dni.dni}}</td>
+                                        <td>{{i.fecha_recibo}}</td>
+                                        <td>{{i.importe}}</td>
+                                        <td>{{i.métodoDePago}}</td>
+                                        
+                                        <td><a href=""  class="btn btn-warning">editar</a></td>
+                                    </tr>
+                                    
+                                {% endfor %}
+                            </tbody>
+                            
+                            
+                            
+            
+                        
+                            
+                            
+                            
+            
+                        </table>
+                    
+                    </div>
+            
+                </div>
+            
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}
