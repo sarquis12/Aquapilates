@@ -1,0 +1,85 @@
+{% extends "./base.html" %}
+{% block title %}FICHA MEDICA{%endblock%}
+{% block body %}
+<div class="row">
+    <div class="offset-md-4 col-md-4">
+        <h2>FICHA MEDICA</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/editarFichaMedica/" method="POST"> {% csrf_token %}
+                    <H5>DNI:</H5>
+                    <div class="form-group">
+                        <input type="text" id="txtDNI" value="{{cliente.dni_id}}" name="txtDNI" class=" form-control " placeholder="dni"   readonly required>
+                    </div>    
+                    <H5>CELULAR DE EMERGENCIA:</H5>
+                    {% if cliente.celular_emergencia is None  %}
+                    <div class="form-group">    
+                        <input null=True type="text" id="txtCelular" name="txtCelular"  class=" form-control " placeholder="celular de emergencia"  maxlength="8" >
+                    </div>
+
+                    
+
+                    {% else  %}
+                    <div class="form-group">    
+                        <input null=True type="text" id="txtCelular" name="txtCelular" value="{{ cliente.celular_emergencia }}"  class=" form-control " placeholder="celular de emergencia"  maxlength="8" >
+                    </div>
+
+                    {% endif %}
+                    
+                    
+                    <H5>ALTURA:</H5>
+                    <div class="form-group">    
+                        <input type="number" id="NumAltura" name="NumAltura" step="0.01" value="{{cliente.altura}}" class=" form-control " placeholder="altura"    >
+                    </div>
+                    
+                    
+                    
+                    <H5>PESO:</H5>
+                    <div class="form-group">    
+                        <input type="number" id="NumPeso" name="NumPeso" value="{{cliente.peso}}" class=" form-control " placeholder="peso"  >
+                    </div>
+                    
+                    
+                    
+                    <H5>OBRA SOCIAL:</H5>
+                    {% if cliente.obra_social == "None" %}
+                    
+                    <div class="form-group">    
+                        <input type="text" id="txtObra" name="txtObra"  class=" form-control " placeholder="obra social"  maxlength="50" >
+                    </div>  
+
+                    {% else %}
+
+                    <div class="form-group">    
+                        <input type="text" id="txtObra" name="txtObra" value="{{cliente.obra_social}}" class=" form-control " placeholder="obra social"  maxlength="50" >
+                    </div>
+                    
+                    {% endif %}
+                    
+                    
+                    <H5>CONSIDERACIONES:</H5>
+                    {% if cliente.consideraciones == "None" %}
+                    
+                    <div class="form-group">    
+                        <input type="text" id="txtConsideraciones" name="txtConsideraciones"  class=" form-control " placeholder="consideraciones"  >
+                    </div>
+                    
+                    {% else %}
+                    <div class="form-group">    
+                        <input type="text" id="txtConsideraciones" name="txtConsideraciones" value="{{cliente.consideraciones}}" class=" form-control " placeholder="consideraciones"  >
+                    </div>
+                    {% endif %}
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-success text-black">guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

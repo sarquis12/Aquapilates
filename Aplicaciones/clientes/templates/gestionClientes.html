@@ -1,0 +1,123 @@
+{% extends "./base.html" %}
+{% block title %}GESTION DE CLIENTES{%endblock%}
+{% block body %}
+<div class="row">
+    <div class="col-md-6 col-lg-4 col-xl-4 col-sm-12">
+        <h2>INGRESO CLIENTES</h2>
+        <div class="card" style="margin-top: 14%;">
+            <div class="card-body">
+                <form action="/registrarCliente/" method="POST"> {% csrf_token %}
+                    {% if dniError == True %}
+                        <p style="color: red;">el dni no es valido o ya existe</p>
+
+                    {% endif %}
+                    <div class="form-group">
+                        <input type="text" id="txtDNI" name="txtDNI" class="form-control" placeholder="DNI" maxlength="10" required>
+                    </div>    
+                    <div class="form-group">    
+                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" placeholder="NOMBRE" maxlength="10" required>
+                    </div>    
+                    <div class="form-group">
+                        <input type="text" id="txtApellido" name="txtApellido" class="form-control" placeholder="APELLIDO" maxlength="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Selecciona una fecha:</label>
+                        <input type="date" id="dateNacimiento" name="dateNacimiento" class="form-control" placeholder="NACIMIENTO" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-success text-black">GUARDAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+
+
+    </div>
+
+    <div class="col-md-6 col-lg-8 col-xl-8 col-sm-12">
+        <div class="table-responsive">
+            <h2>LISTADO CLIENTES ACTIVOS</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>DNI</th>
+                        <th>NOMBRE</th>
+                        <th>APELLIDO</th>
+                        <th>NACIMIENTO</th>
+                        <th>FICHA MED.</th>
+                        <th>OPCIONES</th>
+
+                        
+                    </tr>
+
+                </thead>
+                <tbody>
+                    {% for i in clientes_activos %}
+                        <tr>
+                            <td>{{i.dni}}</td>
+                            <td>{{i.nombre}}</td>
+                            <td>{{i.apellido}}</td>
+                            <td>{{i.nacimiento}}</td>
+                            <td><a href="verFichaMedica/{{i.dni}}"  class="btn btn-info">ficha medica</a></td>
+                            <td><a href="edicionCliente/{{i.dni}}"  class="btn btn-info">editar</a></td>
+                            <td><a href="eliminacionCliente/{{i.dni}}"  class="btn btn-danger">eliminar</a></td>
+                            
+                        
+                        
+                        </tr>
+                        
+                    {% endfor %}
+                </tbody>
+                
+                
+                
+
+            </table>
+            <h2>LISTADO CLIENTES INACTIVOS</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>DNI</th>
+                        <th>NOMBRE</th>
+                        <th>APELLIDO</th>
+                        <th>NACIMIENTO</th>
+                        <th>FICHA MED.</th>
+                        <th>OPCIONES</th>
+
+                        
+                    </tr>
+
+                </thead>
+                <tbody>
+                    {% for i in clientes_inactivos %}
+                        <tr>
+                            <td>{{i.dni}}</td>
+                            <td>{{i.nombre}}</td>
+                            <td>{{i.apellido}}</td>
+                            <td>{{i.nacimiento}}</td>
+                            <td><a href="verFichaMedica/{{i.dni}}"  class="btn btn-info">ficha medica</a></td>
+                            <td><a href="edicionCliente/{{i.dni}}"  class="btn btn-info">editar</a></td>
+                            <td><a href="activarCliente/{{i.dni}}"  class="btn btn-warning">ACTIVAR</a></td>
+                            
+                        
+                        
+                        </tr>
+                        
+                    {% endfor %}
+                </tbody>
+                
+                
+                
+
+            </table>
+        
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends "./base.html" %}
+{% block title %}clases{%endblock%}
+{% block body %}
+<body>
+    <!-- Elemento div para almacenar los datos de los turnos -->
+    <div id="cant_fechas" data-cant_fechas="{{ cant_fechas }}"></div>
+    <div id="turnos" data-turnos="{{ turnos_json }}"></div>
+    <div id="datosReserva" data-datosReserva="{{ datosReserva }}"></div>
+    <!-- Contenedor donde se agregarán los inputs -->
+    <form id="formulario" action="./crearClase-parte3/" method="POST">{% csrf_token %}
+        <div id="contenedor-inputs"></div>
+        <button type="button" class="btn btn-block btn-success text-black" onclick="guardarTurnosYEnviar()">Guardar</button>
+    </form>
+
+    <script>
+        // Obtener los datos de los turnos
+        var divTurnos = document.getElementById('turnos');
+        var dataTurnosStr = divTurnos.getAttribute('data-turnos');
+        console.log("Cadena JSON recibida:", dataTurnosStr);
+        var diccionario = JSON.parse(dataTurnosStr); // Convertir la cadena JSON en un diccionario JavaScript
+
+        var fechas = document.getElementById('cant_fechas');
+        var datafechas = fechas.getAttribute('data-cant_fechas');
+        console.log(datafechas)
+
+
+        var divDatosReserva = document.getElementById('datosReserva');
+        var datosReservaStr = divDatosReserva.getAttribute('data-datosReserva');
+        console.log("datos de reserva:",datosReservaStr)
+
+
+        // Función para crear los inputs de fecha y select
+        function crearInputs() {
+            var cantidadSemanas = 4
+            var cantidadFechas = datafechas;
+            var contenedor = document.getElementById('contenedor-inputs');
+            contenedor.innerHTML = ''; // Limpiar el contenedor
+
+            // Iterar sobre las semanas
+            for (var semana = 1; semana <= cantidadSemanas; semana++) {
+                var semanaHeading = document.createElement('h2');
+                semanaHeading.textContent = 'Semana ' + semana;
+                contenedor.appendChild(semanaHeading);
+
+                // Iterar sobre las fechas
+                for (var fecha = 1; fecha <= cantidadFechas; fecha++) {
+                    var inputDate = document.createElement('input');
+                    inputDate.type = 'date';
+                    inputDate.id = 'fecha-semana-' + semana + '-' + fecha;
+                    inputDate.name = 'fecha-semana-' + semana + '-' + fecha;
+                    inputDate.className = "form-control";
+                    inputDate.required = true;
+                    var inputTurno = document.createElement('select');
+                    inputTurno.id = "select-" + 'fecha-semana-' + semana + '-' + fecha;
+                    inputTurno.className = "form-control";
+
+                    // Evento para mostrar el valor seleccionado en la consola
+                    inputTurno.addEventListener('change', function(event) {
+                        var selectId = event.target.id;
+                        var selectedValue = event.target.value;
+                        console.log('Valor seleccionado en el selector ' + selectId + ':', selectedValue);
+                    });
+
+                    // Establecer el evento de cambio para cada input de fecha
+                    inputDate.addEventListener('change', function(event) {
+                        var inputDateId = event.target.id; // Obtener el ID del input de fecha actual
+                        var fechaSeleccionada = new Date(event.target.value);
+                        var semanaActual = parseInt(event.target.id.split('-')[2]);
+                        var diaSemana = fechaSeleccionada.getDay(); // Obtener el día de la semana de la fecha seleccionada
+                        var semana = document.getElementById("select-" + inputDateId);
+                        semana.innerHTML = ''; // Limpiar el select antes de agregar nuevas opciones
+
+                        // Iterar sobre el diccionario de turnos y agregar opciones al select según el día de la semana
+                        for (var clave in diccionario) {
+                            if (diccionario[clave][1] === "lunes" && diaSemana === 0) {
+                                crearOption(diccionario, clave, semana, inputDateId);
+                            } else if (diccionario[clave][1] === "martes" && diaSemana === 1) {
+                                crearOption(diccionario, clave, semana, inputDateId);
+                            } else if (diccionario[clave][1] === "miercoles" && diaSemana === 2) {
+                                crearOption(diccionario, clave, semana, inputDateId);
+                            } else if (diccionario[clave][1] === "jueves" && diaSemana === 3) {
+                                crearOption(diccionario, clave, semana, inputDateId);
+                            } else if (diccionario[clave][1] === "viernes" && diaSemana === 4) {
+                                crearOption(diccionario, clave, semana, inputDateId);
+                            } else if (diccionario[clave][1] === "sabado" && diaSemana === 5) {
+                                crearOption(diccionario, clave, semana, inputDateId);
+                            } else if (diccionario[clave][1] === "domingo" && diaSemana === 6) {
+                                crearOption(diccionario, clave, semana, inputDateId);
+                            }
+                        }
+                        // Calcular el primer y último día de la semana en función de la fecha seleccionada
+                        var primerDiaSemana = new Date(fechaSeleccionada);
+                        primerDiaSemana.setDate(primerDiaSemana.getDate() - diaSemana); // Lunes de la semana
+                        var ultimoDiaSemana = new Date(primerDiaSemana);
+                        ultimoDiaSemana.setDate(ultimoDiaSemana.getDate() + 6); // Domingo de la semana
+
+                        // Establecer el mínimo y máximo para los otros inputs de fecha en la misma semana
+                        for (var i = 1; i <= cantidadFechas; i++) {
+                            var otroInput = document.getElementById('fecha-semana-' + semanaActual + '-' + i);
+                            if (otroInput !== event.target) {
+                                otroInput.min = primerDiaSemana.toISOString().split('T')[0];
+                                otroInput.max = ultimoDiaSemana.toISOString().split('T')[0];
+                            }
+                        }
+                    });
+
+
+                    // Agregar los elementos al contenedor
+                    var h5fecha = document.createElement('h5');
+                    h5fecha.textContent = "fecha:"
+                    contenedor.appendChild(h5fecha);
+                    contenedor.appendChild(inputDate);
+                    var h5turno = document.createElement('h5');
+                    h5turno.textContent = "turno:"
+                    contenedor.appendChild(h5turno);
+                    contenedor.appendChild(inputTurno);
+                    contenedor.appendChild(document.createElement('br'));
+                    contenedor.appendChild(document.createElement('br'));
+                }
+                contenedor.appendChild(document.createElement('br'));
+            }
+        }
+
+        // Función para crear una opción en el select
+        function crearOption(diccionario, clave, select, inputDateId) {
+            var option = document.createElement('option');
+            option.id = "opcion" + clave + "-" + inputDateId;
+            option.value = clave; // Asigna el valor del diccionario a la opción
+            option.textContent = diccionario[clave][0]; //
+            select.appendChild(option);
+        }
+
+        var inputDatosReservaCampo = document.createElement('input');
+        inputDatosReservaCampo.type = 'hidden';
+        inputDatosReservaCampo.name = 'datos_reserva';
+        inputDatosReservaCampo.value = datosReservaStr;
+        var formulario = document.getElementById('formulario');
+        formulario.appendChild(inputDatosReservaCampo);
+
+        // Función para recopilar los valores de los inputs de turno y enviarlos con el formulario
+        function guardarTurnosYEnviar() {
+            var inputsFecha = document.querySelectorAll('input[type="date"]'); // Obtener todos los elementos <input> de tipo date
+            var inputsTurno = document.querySelectorAll('select'); // Obtener todos los elementos <select>
+
+            // Verificar si algún campo de fecha está vacío
+            var camposFechaVacios = Array.from(inputsFecha).some(function(inputFecha) {
+                return !inputFecha.value;
+            });
+
+            // Si hay campos de fecha vacíos, mostrar un mensaje de error y detener el envío del formulario
+            if (camposFechaVacios) {
+                alert('Por favor completa todos los campos de fecha antes de enviar el formulario.');
+                return;
+            }
+
+            // Si todos los campos de fecha están completos, continuar con el envío del formulario
+            var turnosSeleccionados = {};
+
+            inputsTurno.forEach(function(inputTurno) {
+                var id = inputTurno.id; // Obtener el ID del input
+                var valorSeleccionado = inputTurno.value; // Obtener el valor seleccionado
+                turnosSeleccionados[id] = valorSeleccionado; // Guardar el valor en el objeto usando el ID como clave
+            });
+
+            // Agregar los valores de los turnos al formulario como un campo oculto
+            var inputTurnosCampo = document.createElement('input');
+            inputTurnosCampo.type = 'hidden';
+            inputTurnosCampo.name = 'turnos_seleccionados';
+            inputTurnosCampo.value = JSON.stringify(turnosSeleccionados);
+
+            // Agregar el campo oculto al formulario
+            var formulario = document.getElementById('formulario');
+            formulario.appendChild(inputTurnosCampo);
+
+            // Enviar el formulario
+            formulario.submit();
+        }
+
+        document.addEventListener('DOMContentLoaded', crearInputs());
+    </script>
+</body>
+{% endblock %}
