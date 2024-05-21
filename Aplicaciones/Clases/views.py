@@ -276,7 +276,7 @@ def crearClaseParte3(request):
     
     
     # Crear la reserva
-    printreserva = Reserva.objects.create(DNI=str(dict_reserva["dni"]), id_paquete=paquete, id_recibo=recibo, fecha_reserva=fecha_actual_str)
+    reserva = Reserva.objects.create(DNI=str(dict_reserva["dni"]), id_paquete=paquete, id_recibo=recibo, fecha_reserva=fecha_actual_str)
     
     # Ahora puedes trabajar con los turnos seleccionados
     for i in range(4):
