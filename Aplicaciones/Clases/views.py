@@ -55,9 +55,6 @@ def guardarRecibo(request):
 def verRecibo(request):
     # Obtener todos los recibos de la base de datos
     recibos = Recibo.objects.all()
-    for i in recibos:
-        print(i.dni.dni)
-    
     # Renderizar el template con los datos necesarios
     return render(request, "verRecibo.html", {"recibos": recibos})
 
