@@ -80,14 +80,11 @@ WSGI_APPLICATION = 'AquaPilates.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'u734063720_test1',
-        'USER': 'u734063720_test1',
-        'PASSWORD': '1lu$6pz;N^Y',
-        'HOST': 'https://auth-db1193.hstgr.io',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'AquaPilatesDBTest.sqlite3',
     }
 }
+
 
 
 
