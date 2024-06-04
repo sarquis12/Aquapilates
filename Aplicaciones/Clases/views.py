@@ -21,25 +21,51 @@ def menuClases(request):
 def crearRecibo(request):
     # Obtener todos los clientes de la base de datos
     clientes = Cliente.objects.all()
+    dniError=False
+    try:
+        if request.session.get("dniError")==True:
+            dniError=True
+    except:
+        pass
+    request.session["dniError"]=False
     
     # Renderizar el template con los datos necesarios
-    return render(request, "crearRecibo.html", {"clientes": clientes})
+    return render(request, "crearRecibo.html", {"clientes": clientes,"dniError":dniError})
 
 @login_required
 def guardarRecibo(request):
     
     fecha_actual = datetime.now().date()
+    request.session["dniError"]=False
 
     # Sumarle 30 días
     fecha_en_30_dias = fecha_actual + timedelta(days=30)
 
     # Obtener los datos del formulario
-    dni_ingresado = request.POST['DNIRecibo']
+    try :
+        dni_ingresado = request.POST['DNIRecibo']
+    except:
+        try:
+            request.session["dniError"]=True
+        except:
+            redirect("/menuClases/crearRecibo/")
+        
     fecha = request.POST['fechaRecibo']
     importe = request.POST['numImporte']
     metodo_pago = request.POST["pagoRecibo"]
-    DNI=Cliente.objects.get(dni=dni_ingresado)
-    
+    try :
+        DNI=Cliente.objects.get(dni=dni_ingresado)
+    except:
+        try:
+            request.session["dniError"]=True
+            print("pasa por aca")
+            try:
+                return redirect("/menuClases/crearRecibo/")
+            except:
+                print("este es el problema")
+        except:
+            
+            pass
     try:
         # Crear un nuevo recibo con los datos proporcionados
         recibo = Recibo.objects.create(dni=DNI, fecha_recibo=fecha, importe=importe, métodoDePago=metodo_pago)
@@ -55,6 +81,8 @@ def guardarRecibo(request):
 def verRecibo(request):
     # Obtener todos los recibos de la base de datos
     recibos = Recibo.objects.all()
+    
+    
     # Renderizar el template con los datos necesarios
     return render(request, "verRecibo.html", {"recibos": recibos})
 
@@ -273,8 +301,10 @@ def crearClaseParte3(request):
     
     
     # Crear la reserva
-    reserva = Reserva.objects.create(DNI=str(dict_reserva["dni"]), id_paquete=paquete, id_recibo=recibo, fecha_reserva=fecha_actual_str)
-    
+    try:
+        reserva = Reserva.objects.create(DNI=str(dict_reserva["dni"]), id_paquete=paquete, id_recibo=recibo, fecha_reserva=fecha_actual_str)
+    except Exception as e:
+        print(f"Fallo al crear la reserva: {e}")
     # Ahora puedes trabajar con los turnos seleccionados
     for i in range(4):
         for x in range(paquete.cant_clas_sem):
