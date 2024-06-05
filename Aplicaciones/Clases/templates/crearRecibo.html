@@ -6,7 +6,10 @@
         <div class="card">
             <div class="card-body">
                 <form action="./guardarRecibo" method="POST"> {% csrf_token %}
-                    
+                    {% if dniError == True %}
+                        <p style="color: red;">el dni no existe</p>
+
+                    {% endif %}
                     
                     <DIV class="form-group">
                         <H5>DNI:</H5>
