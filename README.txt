@@ -26,3 +26,6 @@ Visualizar el horario de clases y la disponibilidad de turnos
 ##Estado del Proyecto
 Versión actual: 0.1.0 (en desarrollo)
 Última actualización: 5de Abril del 2024
+
+##Actualización de deploy :
+1- volver a la "screen" llamada "django-server"
