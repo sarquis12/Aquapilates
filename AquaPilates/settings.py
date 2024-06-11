@@ -80,12 +80,8 @@ WSGI_APPLICATION = 'AquaPilates.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Asumiendo que estás usando MySQL
-        'NAME': 'u734063720_test1',           # Nombre de la base de datos
-        'USER': 'u734063720_test1',           # Usuario de la base de datos
-        'PASSWORD': '1lu$6pz;N^Y',            # Contraseña de la base de datos
-        'HOST': 'srv1193.hstgr.io',           # Dirección del servidor de la base de datos
-        'PORT': '3306',                       # Puerto de la base de datos, por defecto para MySQL es 3306
+        'ENGINE': 'django.db.backends.sqlite3',  
+        'NAME': 'AquaPilatesDBTest.sqlite3',              
     }
 }
 
