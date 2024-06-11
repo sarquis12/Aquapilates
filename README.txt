@@ -28,4 +28,20 @@ Versión actual: 0.1.0 (en desarrollo)
 Última actualización: 5de Abril del 2024
 
 ##Actualización de deploy :
-1- volver a la "screen" llamada "django-server"
+1- volver a la "screen" llamada "django-server" con el siguiente codigo:
+screen -r django-server
+2-detener el proceso con "ctrl+C"
+3-salir del screen presionando Ctrl + A seguido de D
+4-estando en la carpeta "PROJECT" ejecutar "git pull origin master" para actualizar el repositorio al mas actualizado
+5-verificar los cambios
+6- activar servidor
+
+##acticar servidor
+1- ubicarse en la carpeta "PROJECT"
+2- si no existe, una sesion de  "screen" con el nombre "django-server" usando el siguiente comando :
+screen -S django-server
+si la sesion existe, entrar a esta con el comando 
+screen -r django-server
+3-una vez en la sesion, utilizar el comando runserver
+python manage.py runserver 0.0.0.0:8000
+4- salir de la sesion presionando Ctrl + A seguido de D
