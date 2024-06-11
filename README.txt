@@ -32,12 +32,17 @@ Versión actual: 0.1.0 (en desarrollo)
 screen -r django-server
 2-detener el proceso con "ctrl+C"
 3-salir del screen presionando Ctrl + A seguido de D
-4-estando en la carpeta "PROJECT" ejecutar "git pull origin master" para actualizar el repositorio al mas actualizado
-cd /opt/bitnami/projects/PROJECT
-5-verificar los cambios
-6- activar servidor usando:
-python manage.py runserver 0.0.0.0:8000
+4-estando en la carpeta "PROJECT" usando "cd /opt/bitnami/projects/PROJECT"  ejecutar "git pull origin master" para actualizar el repositorio al mas actualizado
 
+5-verificar los cambios
+6- settings.py debera configurarse para conectarse a la db
+7-sincronizar la db ejecutando los siguientes comandos:
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+find . -path "*/migrations/*.pyc"  -delete
+python manage.py makemigrations
+python manage.py migrate --fake
+8- volver a la screen usando el comando del paso 1 y activar servidor usando:
+python manage.py runserver 0.0.0.0:8000
 ##acticar servidor
 1- ubicarse en la carpeta "PROJECT"
 2- si no existe, una sesion de  "screen" con el nombre "django-server" usando el siguiente comando :
