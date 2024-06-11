@@ -33,6 +33,7 @@ screen -r django-server
 2-detener el proceso con "ctrl+C"
 3-salir del screen presionando Ctrl + A seguido de D
 4-estando en la carpeta "PROJECT" ejecutar "git pull origin master" para actualizar el repositorio al mas actualizado
+cd /opt/bitnami/projects/PROJECT
 5-verificar los cambios
 6- activar servidor usando:
 python manage.py runserver 0.0.0.0:8000
