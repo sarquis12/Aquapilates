@@ -32,7 +32,13 @@
                     </div>
                     <H5>Asistencia:</H5>
                     <div class="form-group">
-                        <input type="text" id="txtAsistencia" value="{{clase.asistencia}}" name="txtAsistencia" class=" form-control "    >
+                        <select id="txtAsistencia" name="txtAsistencia" class="form-control">
+                            <option value="" {% if clase.asistencia == None %}selected{% endif %}>-- Seleccione --</option>
+                            <option value="presente" {% if clase.asistencia == True %}selected{% endif %}>Presente</option>
+                            <option value="ausente" {% if clase.asistencia == False %}selected{% endif %}>Ausente</option>
+                            <!-- Agregar más opciones si es necesario -->
+                            
+                        </select>
                     </div>
                     <H5>Preparecion:</H5>
                     <div class="form-group">
