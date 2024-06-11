@@ -34,7 +34,8 @@ screen -r django-server
 3-salir del screen presionando Ctrl + A seguido de D
 4-estando en la carpeta "PROJECT" ejecutar "git pull origin master" para actualizar el repositorio al mas actualizado
 5-verificar los cambios
-6- activar servidor
+6- activar servidor usando:
+python manage.py runserver 0.0.0.0:8000
 
 ##acticar servidor
 1- ubicarse en la carpeta "PROJECT"
