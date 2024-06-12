@@ -43,6 +43,8 @@ python manage.py makemigrations
 python manage.py migrate --fake
 8- volver a la screen usando el comando del paso 1 y activar servidor usando:
 python manage.py runserver 0.0.0.0:8000
+
+
 ##acticar servidor
 1- ubicarse en la carpeta "PROJECT"
 2- si no existe, una sesion de  "screen" con el nombre "django-server" usando el siguiente comando :
