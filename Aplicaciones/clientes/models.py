@@ -13,7 +13,7 @@ class Cliente(models.Model):
 
 class FichaMedica(models.Model):
     dni = models.OneToOneField(Cliente, on_delete=models.CASCADE, primary_key=True)
-    celular_emergencia = models.CharField(max_length=8, null=True,default=None)
+    celular_emergencia = models.CharField(max_length=15, null=True,default=None)
     altura = models.IntegerField(null=True, default=None)
     peso = models.IntegerField(null=True, default=None)
     obra_social = models.CharField(max_length=50,null=True, default=None)
