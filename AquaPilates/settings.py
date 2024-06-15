@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'Aplicaciones.Turnos',
     'Aplicaciones.Paquetes',
     'Aplicaciones.Clases',
-    'Aplicaciones.login'
 ]
 
 MIDDLEWARE = [
