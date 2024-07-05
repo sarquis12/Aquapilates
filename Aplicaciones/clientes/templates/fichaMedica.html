@@ -9,24 +9,17 @@
                 <form action="/editarFichaMedica/" method="POST"> {% csrf_token %}
                     <H5>DNI:</H5>
                     <div class="form-group">
-                        <input type="text" id="txtDNI" value="{{cliente.dni_id}}" name="txtDNI" class=" form-control " placeholder="dni"   readonly required>
+                        <input type="text" id="txtDNI" value="{{ cliente.dni_id }}" name="txtDNI" class="form-control" placeholder="dni" readonly required>
                     </div>    
                     <H5>CELULAR DE EMERGENCIA:</H5>
-                    {% if cliente.celular_emergencia is None  %}
-                    <div class="form-group">    
-                        <input null=True type="text" id="txtCelular" name="txtCelular"  class=" form-control " placeholder="celular de emergencia"  maxlength="15" >
+                    <div class="form-group">
+                        <input type="text" id="txtCelular" name="txtCelular" value="{{ cliente.celular_emergencia }}" class="form-control" placeholder="celular de emergencia" maxlength="15">
                     </div>
-                    {% else  %}
-                    <div class="form-group">    
-                        <input null=True type="text" id="txtCelular" name="txtCelular" value="{{ cliente.celular_emergencia }}"  class=" form-control " placeholder="celular de emergencia"  maxlength="15" >
-                    </div>
-                    {% endif %}
-                    
                     
                     <H5>ALTURA:</H5>
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="number" id="NumAltura" name="NumAltura" value="{{cliente.altura}}" class="form-control" placeholder="altura" step="1" min="0">
+                            <input type="number" id="NumAltura" name="NumAltura" value="{{ cliente.altura }}" class="form-control" placeholder="altura" step="1" min="0">
                             <div class="input-group-append">
                                 <span class="input-group-text">Cm</span>
                             </div>
@@ -35,51 +28,105 @@
                     <H5>PESO:</H5>
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="number" id="NumPeso" name="NumPeso" value="{{cliente.peso}}" class="form-control" placeholder="peso" step="1" min="0">
+                            <input type="number" id="NumPeso" name="NumPeso" value="{{ cliente.peso }}" class="form-control" placeholder="peso" step="1" min="0">
                             <div class="input-group-append">
                                 <span class="input-group-text">Kg</span>
                             </div>
                         </div>
                     </div>
                     <H5>OBRA SOCIAL:</H5>
-                    {% if cliente.obra_social == "None" %}
-                    <div class="form-group">    
-                        <input type="text" id="txtObra" name="txtObra"  class=" form-control " placeholder="obra social"  maxlength="50" >
-                    </div>  
-                    {% else %}
-                    <div class="form-group">    
-                        <input type="text" id="txtObra" name="txtObra" value="{{cliente.obra_social}}" class=" form-control " placeholder="obra social"  maxlength="50" >
+                    <div class="form-group">
+                        <input type="text" id="txtObra" name="txtObra" value="{{ cliente.obra_social }}" class="form-control" placeholder="obra social" maxlength="50">
                     </div>
-                    {% endif %}
-                    
-                    
                     
                     <H5>CONSIDERACIONES:</H5>
-                    {% if cliente.consideraciones == "None" %}
-                        <div class="form-group">
-                            <textarea id="txtConsideraciones" name="txtConsideraciones" class="form-control" placeholder="consideraciones" rows="3" oninput="autoResize(this)"></textarea>
-                        </div>
-                    {% else %}
-                        <div class="form-group">
-                            <textarea id="txtConsideraciones" name="txtConsideraciones" class="form-control" placeholder="consideraciones" rows="3" oninput="autoResize(this)">{{cliente.consideraciones}}</textarea>
-                        </div>
-                    {% endif %}
-                    
-                    
                     <div class="form-group">
-                        <button type="submit" class="btn btn-block btn-success text-black">guardar</button>
+                        <textarea id="txtConsideraciones" name="txtConsideraciones" class="form-control" placeholder="consideraciones" rows="3" oninput="autoResize(this)">{{ cliente.consideraciones }}</textarea>
+                    </div>
+                    
+                    <h5>CUESTIONARIO MEDICO:</h5>
+                    <div class="container">
+                        <div class="row">
+                            
+                            <div class="col-md-6" >
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="esguince" name="esguince" {% if cliente.esguince %}checked{% endif %}>
+                                    <label class="form-check-label" for="esguince">Esguince</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="fractura" name="fractura" {% if cliente.fractura %}checked{% endif %}>
+                                    <label class="form-check-label" for="fractura">Fractura</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="fisura" name="fisura" {% if cliente.fisura %}checked{% endif %}>
+                                    <label class="form-check-label" for="fisura">Fisura</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="protesis" name="protesis" {% if cliente.protesis %}checked{% endif %}>
+                                    <label class="form-check-label" for="protesis">Prótesis</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="hernias" name="hernias" {% if cliente.hernias %}checked{% endif %}>
+                                    <label class="form-check-label" for="hernias">Hernias</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="desgarro" name="desgarro" {% if cliente.desgarro %}checked{% endif %}>
+                                    <label class="form-check-label" for="desgarro">Desgarro</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="cirugias" name="cirugias" {% if cliente.cirugias %}checked{% endif %}>
+                                    <label class="form-check-label" for="cirugias">Cirugías</label>
+                                </div>
+                        
+                            </div>
+                            <div class="col-md-6">
+                                
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="tuvo_covid" name="tuvo_covid" {% if cliente.tuvo_covid %}checked{% endif %}>
+                                    <label class="form-check-label" for="tuvo_covid">Tuvo COVID</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="alguna_cardiopatia" name="alguna_cardiopatia" {% if cliente.alguna_cardiopatia %}checked{% endif %}>
+                                    <label class="form-check-label" for="alguna_cardiopatia">Alguna Cardiopatía</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="tiroides" name="tiroides" {% if cliente.tiroides %}checked{% endif %}>
+                                    <label class="form-check-label" for="tiroides">Tiroides</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="transplantes" name="transplantes" {% if cliente.transplantes %}checked{% endif %}>
+                                    <label class="form-check-label" for="transplantes">Transplantes</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="hipertension" name="hipertension" {% if cliente.hipertension %}checked{% endif %}>
+                                    <label class="form-check-label" for="hipertension">Hipertensión</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="alzheimer" name="alzheimer" {% if cliente.alzheimer %}checked{% endif %}>
+                                    <label class="form-check-label" for="alzheimer">Alzheimer</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="asma" name="asma" {% if cliente.asma %}checked{% endif %}>
+                                    <label class="form-check-label" for="asma">Asma</label>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="form-group " >
+                        <button type="submit" class="btn btn-block btn-success text-black offset-md-4">Guardar</button>
                     </div>
                 </form>
             </div>
         </div>
-
     </div>
 </div>
 <style>
     #txtConsideraciones {
-            resize: none; /* Deshabilitar el redimensionamiento manual */
-            overflow: hidden; /* Esconder barra de desplazamiento */
-        }
+        resize: none; /* Deshabilitar el redimensionamiento manual */
+        overflow: hidden; /* Esconder barra de desplazamiento */
+    }
 </style>
 <script>
     function autoResize(textarea) {
