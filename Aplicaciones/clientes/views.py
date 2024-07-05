@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Cliente, FichaMedica
 from django.utils import timezone
@@ -103,25 +103,68 @@ def verFichaMedica(request, dni):
     return render(request,"fichaMedica.html",{'cliente':cliente})
 @login_required
 def editarFichaMedica(request):
-    dni=request.POST['txtDNI']
-    celular_emergencia=request.POST['txtCelular']
-    altura=request.POST['NumAltura']
-    if altura == "" :
-        altura=None 
+    dni = request.POST['txtDNI']
+    celular_emergencia = request.POST['txtCelular']
+    altura = request.POST['NumAltura']
+    if altura == "":
+        altura = None 
     else:
-        altura=float(altura)
+        altura = float(altura)
     
-    peso=request.POST['NumPeso']
-    if peso == "" :
-        peso=None
+    peso = request.POST['NumPeso']
+    if peso == "":
+        peso = None
     else:
-        peso=int(peso)
-    obra_social=request.POST['txtObra']
-    consideraciones=request.POST['txtConsideraciones']
-    fichamedica=FichaMedica.objects.get(dni_id=dni)
-    fichamedica.delete()
-    fichamedica=FichaMedica.objects.create(dni_id=dni,celular_emergencia=celular_emergencia,altura=altura,
-                                           peso=peso,obra_social=obra_social,consideraciones=consideraciones)
+        peso = int(peso)
+        
+    obra_social = request.POST['txtObra']
+    consideraciones = request.POST['txtConsideraciones']
+
+    # Captura los valores de los checkboxes
+    esguince = 'esguince' in request.POST
+    fractura = 'fractura' in request.POST
+    fisura = 'fisura' in request.POST
+    protesis = 'protesis' in request.POST
+    hernias = 'hernias' in request.POST
+    desgarro = 'desgarro' in request.POST
+    cirugias = 'cirugias' in request.POST
+    tuvo_covid = 'tuvo_covid' in request.POST
+    alguna_cardiopatia = 'alguna_cardiopatia' in request.POST
+    tiroides = 'tiroides' in request.POST
+    transplantes = 'transplantes' in request.POST
+    hipertension = 'hipertension' in request.POST
+    alzheimer = 'alzheimer' in request.POST
+    asma = 'asma' in request.POST
+
+    # Busca la instancia existente de FichaMedica
+    fichamedica = get_object_or_404(FichaMedica, dni_id=dni)
+    
+    # Actualiza los campos de la instancia
+    fichamedica.celular_emergencia = celular_emergencia
+    fichamedica.altura = altura
+    fichamedica.peso = peso
+    fichamedica.obra_social = obra_social
+    fichamedica.consideraciones = consideraciones
+    
+    # Actualiza los campos del cuestionario médico
+    fichamedica.esguince = esguince
+    fichamedica.fractura = fractura
+    fichamedica.fisura = fisura
+    fichamedica.protesis = protesis
+    fichamedica.hernias = hernias
+    fichamedica.desgarro = desgarro
+    fichamedica.cirugias = cirugias
+    fichamedica.tuvo_covid = tuvo_covid
+    fichamedica.alguna_cardiopatia = alguna_cardiopatia
+    fichamedica.tiroides = tiroides
+    fichamedica.transplantes = transplantes
+    fichamedica.hipertension = hipertension
+    fichamedica.alzheimer = alzheimer
+    fichamedica.asma = asma
+    
+    # Guarda la instancia actualizada
+    fichamedica.save()
+    
     return redirect('/')
 
 
